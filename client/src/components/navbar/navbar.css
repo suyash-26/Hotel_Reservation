@@ -1,0 +1,43 @@
+.navbar {
+  height: 50px;
+  background-color: #003580;
+  display: flex;
+  justify-content: center;
+}
+
+.navContainer {
+  width: 100%;
+  max-width: 1024px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Calligraffitti', cursive;
+  font-weight: 700;
+  font-size: 2rem;
+  /* position: absolute; */
+  text-shadow: -15px 5px 20px #ced0d3;
+  /* top: 50%;
+  left: 50%; */
+  transform: translate(-50%,-50%);
+  letter-spacing: 0.02em;
+  /* text-align: center; */
+  color: #4c6ad7;
+  text-shadow: 0px 0px 0px #50a8ff, 
+    1px 1px 0px #FFD662, 
+    2px 2px 0px  #FF80BF, 
+    3px 3px 0px #EF5097, 
+    4px 4px 0px #6868AC, 
+    5px 5px 0px #90B1E0;
+}
+
+.navButton {
+  margin-left: 20px;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: #003580;
+}
