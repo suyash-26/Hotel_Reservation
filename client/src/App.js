@@ -5,6 +5,8 @@ import Hotel from "./pages/hotel/Hotel";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import "./App.css";
+import Success from "./pages/success/Success";
+import Failure from "./pages/failure/Failure";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +16,8 @@ function App() {
         <Route path="/hotels/:id" element={<Hotel />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/success" element={<Success/>}/>
+        <Route path="/failure" element={<Failure/>}/>
       </Routes>
     </BrowserRouter>
   );

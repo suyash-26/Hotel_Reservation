@@ -6,7 +6,10 @@ import { useContext, useState } from "react";
 import { SearchContext } from "../../context/SearchContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const Reserve = ({ setOpen, hotelId }) => {
+
+
+
+const Reserve = ({ setOpen, hotelId,priceItem}) => {
   const [selectedRooms, setSelectedRooms] = useState([]);
   const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
   const { dates } = useContext(SearchContext);
@@ -53,7 +56,35 @@ const Reserve = ({ setOpen, hotelId }) => {
         })
       );
       setOpen(false);
-      navigate("/");
+
+
+      // =================================payment handle=================
+
+      fetch("http://localhost:8800/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          priceItem: priceItem // Send the price of the item
+        }),
+      })
+        .then(res => {
+          if (res.ok) return res.json();
+          return res.json().then(json => Promise.reject(json));
+        })
+        .then(({ url }) => {
+          window.location = url;
+        })
+        .catch(e => {
+          console.error(e.error);
+        });
+
+
+
+        // ================================payment handle close=============
+
+      // navigate("/");
     } catch (err) {}
   };
   return (

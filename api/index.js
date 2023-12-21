@@ -7,6 +7,7 @@ import hotelsRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import stripePackage from 'stripe';
 const app = express();
 dotenv.config();
 const connect = async () => {
@@ -40,6 +41,49 @@ app.use((err, req, res, next) => {
     stack: err.stack,
   });
 });
+
+// =========================payment=====================
+
+const stripe = stripePackage(process.env.STRIPE_PRIVATE_KEY);
+
+app.post('/create-checkout-session', async (req, res) => {
+  const YOUR_DOMAIN = 'http://localhost:3001'; // Replace this with your front-end URL
+  const {priceItem} = req.body;
+  // const priceItem = 25;
+  console.log(req);
+  console.log(priceItem);
+  try{
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'HotelBooking',
+            },
+            unit_amount: priceItem, // Replace with the amount in cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      // console.log
+      success_url: `${YOUR_DOMAIN}/success`,
+      cancel_url: `${YOUR_DOMAIN}/failure`,
+    });
+  
+  
+    res.json({ url:session.url});
+
+  }catch(error){
+    res.status(500).json({error:error.message});
+  }
+});
+
+
+
+// =============================payment close==================
 
 app.listen(8800, () => {
   connect();
